@@ -27,6 +27,13 @@ pieces.push({ image: "images/Chess_bdt60.png", x:5, y: 7})
 pieces.push({ image: "images/Chess_blt60.png", x:5, y: 0})
 pieces.push({ image: "images/Chess_blt60.png", x:2, y: 0})
 
+pieces.push({ image: "images/Chess_ndt60.png", x:1, y: 7})
+pieces.push({ image: "images/Chess_ndt60.png", x:6, y: 7})
+pieces.push({ image: "images/Chess_nlt60.png", x:1, y: 0})
+pieces.push({ image: "images/Chess_nlt60.png", x:6, y: 0})
+
+
+
 
 
 
