@@ -43,7 +43,10 @@ pieces.push({ image: "images/Chess_qdt60.png", x:3, y: 7})
 pieces.push({ image: "images/Chess_qlt60.png", x:3, y: 0})
 
 function grabPiece(e: React.MouseEvent) {
-    console.log(e.target)
+    const element = e.target as HTMLElement; 
+    if(element.classList.contains("chess-piece")){
+        console.log(e)
+    }
 }
 export default function Chessboard() {
     let board = []; 
