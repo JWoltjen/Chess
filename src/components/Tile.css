@@ -15,6 +15,12 @@
 .tile .chess-piece-image {
   width: 80px;
 }
+.tile .chess-piece:hover {
+  cursor: grab;
+}
+.tile .chess-piece:active {
+  cursor: grabbing;
+}
 
 .tile .chess-piece {
   width: 100px;
