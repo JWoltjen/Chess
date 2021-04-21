@@ -8,7 +8,7 @@ interface Piece {
     x: number
     y: number
 }
-const pieces: Piece[] = []
+const pieces: Piece[] = [];
 
 for(let i = 0; i < 8; i++){
 pieces.push({image: "images/Chess_pdt60.png", x: i, y: 6 })
@@ -16,6 +16,16 @@ pieces.push({image: "images/Chess_pdt60.png", x: i, y: 6 })
 for(let i = 0; i < 8; i++){
 pieces.push({image: "images/Chess_plt60.png", x: i, y: 1 })
 }
+
+pieces.push({ image: "images/Chess_rdt60.png", x:0, y: 7})
+pieces.push({ image: "images/Chess_rdt60.png", x:7, y: 7})
+pieces.push({ image: "images/Chess_rlt60.png", x:0, y: 0})
+pieces.push({ image: "images/Chess_rlt60.png", x:7, y: 0})
+
+
+
+
+
 export default function Chessboard() {
     let board = []; 
 
