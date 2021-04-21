@@ -66,6 +66,12 @@ function movePiece(e: React.MouseEvent) {
         activePiece.style.top = `${y}px`
     }
 }
+
+function dropPiece(e: React.MouseEvent){
+    if(activePiece) {
+        activePiece = null; 
+    }
+}
 export default function Chessboard() {
     let board = []; 
 
@@ -81,5 +87,13 @@ export default function Chessboard() {
             board.push(<Tile key={`${j},${i}`} image={image} number={number}/>)
            }   
         }
-    return <div onMouseMove={(e) => movePiece(e)} onMouseDown={e => grabPiece(e)} id="chessboard">{board}</div>
+    return (
+         <div
+            onMouseMove={(e) => movePiece(e)}
+            onMouseDown={(e) => grabPiece(e)} 
+            onMouseUp={(e) => dropPiece(e)}
+            id="chessboard">
+                {board}
+            </div>
+    )
     }
