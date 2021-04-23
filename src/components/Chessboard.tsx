@@ -37,7 +37,7 @@ const initialBoardState: Piece[] = []
             const y = (teamType === TeamType.OPPONENT) ? 7 : 0; 
         
         initialBoardState.push({image: `images/rook_${type}.png`, x: 0, y, type: PieceType.ROOK, team: teamType})
-        initialBoardState.push({image: `images/rook_${type}.png`, x: 0, y, type: PieceType.ROOK, team: teamType})
+        initialBoardState.push({image: `images/rook_${type}.png`, x: 7, y, type: PieceType.ROOK, team: teamType})
         initialBoardState.push({image: `images/knight_${type}.png`, x:1, y, type: PieceType.KNIGHT, team: teamType})
         initialBoardState.push({image: `images/knight_${type}.png`, x:6, y, type: PieceType.KNIGHT, team: teamType})
         initialBoardState.push({image: `images/bishop_${type}.png`, x:2, y, type: PieceType.BISHOP, team: teamType})

@@ -9,7 +9,14 @@ export default class Referee {
         console.log(`Team: ${team}`)
         
         if(type === PieceType.PAWN) {
-
+            if(team === TeamType.OUR){
+                if(py === 1){
+                    if(px === x && (y - py === 1 || y - py === 2)){
+                        console.log("valid move")
+                        return true; 
+                    }
+                }
+            }
         }
         return false
     }
