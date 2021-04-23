@@ -2,7 +2,7 @@ import './Chessboard.css'
 import Tile from './Tile'
 import React, {useState, useRef} from 'react'
 import Referee from './Referee'
-import {VERTICAL_AXIS, HORIZONTAL_AXIS, GRID_SIZE, Piece, PieceType, TeamType, initialBoardState, Position} from './Constants'
+import {VERTICAL_AXIS, HORIZONTAL_AXIS, GRID_SIZE, Piece, PieceType, TeamType, initialBoardState, Position, samePosition} from './Constants'
 
 export default function Chessboard() {
     const [activePiece, setActivePiece] = useState<HTMLElement | null>(null)
@@ -70,7 +70,7 @@ export default function Chessboard() {
     }
   }
 
-          function dropPiece(e: React.MouseEvent) {
+function dropPiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current;
     if (activePiece && chessboard) {
       const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE);
@@ -174,8 +174,9 @@ export default function Chessboard() {
             onMouseDown={(e) => grabPiece(e)} 
             onMouseUp={(e) => dropPiece(e)}
             id="chessboard"
-            ref={chessboardRef}>
+            ref={chessboardRef}
+        >
                  {board}
             </div>
-    )
+        )
     }
