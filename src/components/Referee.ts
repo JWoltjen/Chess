@@ -1,7 +1,19 @@
-import { PieceType, TeamType } from './Chessboard'
+import { PieceType, TeamType, Piece } from './Chessboard'
 
 export default class Referee {
-    isValidMove(px: number, py: number, x: number, y: number, type: PieceType, team: TeamType){
+    tileIsOccupied(x: number, y: number, boardState: Piece[]): boolean {
+        console.log('Checking if tile is occupied')
+
+        const piece = boardState.find(p => p.x === x && p.y === y)
+        if(piece){
+            return true
+        } else {
+            return false; 
+        }
+    }
+   
+   
+    isValidMove(px: number, py: number, x: number, y: number, type: PieceType, team: TeamType, boardState: Piece[]){
         console.log("referee is checking the move")
         console.log(`Previous Location: (${px}, ${py})`)
         console.log(`Current Location: (${x}, ${y})`)
@@ -12,12 +24,17 @@ export default class Referee {
             if(team === TeamType.OUR){
                 if(py === 1){
                     if(px === x && (y - py === 1 || y - py === 2)){
+                        if(!this.tileIsOccupied(x, y, boardState)){
+                            return true; 
+                        }
                         console.log("valid move")
                         return true; 
                     }
             } else {
                 if(px === x && y - py === 1){
-                    return true; 
+                    if(!this.tileIsOccupied(x, y, boardState)){
+                     return true; 
+                    }
                 }
             }
         } else {
