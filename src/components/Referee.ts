@@ -1,11 +1,16 @@
-import { PieceType } from './Chessboard'
+import { PieceType, TeamType } from './Chessboard'
 
 export default class Referee {
-    isValidMove(px: number, py: number, x: number, y: number, type: PieceType){
+    isValidMove(px: number, py: number, x: number, y: number, type: PieceType, team: TeamType){
         console.log("referee is checking the move")
         console.log(`Previous Location: (${px}, ${py})`)
         console.log(`Current Location: (${x}, ${y})`)
         console.log(`Piece type: ${type}`); 
-        return true
+        console.log(`Team: ${team}`)
+        
+        if(type === PieceType.PAWN) {
+
+        }
+        return false
     }
 }

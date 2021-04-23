@@ -7,10 +7,11 @@ const verticalAxis = ['1', '2', '3', '4', '5', '6', '7', '8']
 const horizontalAxis = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 interface Piece {
-    image: string
-    x: number
-    y: number
+    image: string;
+    x: number;
+    y: number;
     type: PieceType; 
+    team: TeamType
 }
 
 export enum PieceType{
@@ -22,39 +23,35 @@ export enum PieceType{
     KING, 
 }
 
+export enum TeamType {
+    OPPONENT, 
+    OUR
+}
+
 
 const initialBoardState: Piece[] = []
-        for(let i = 0; i < 8; i++){
-        initialBoardState.push({image: "images/Chess_pdt60.png", x: i, y: 6, type: PieceType.PAWN})
+
+        for(let p = 0; p <2; p++){
+            const teamType = (p === 0) ? TeamType.OPPONENT : TeamType.OUR; 
+            const type = (teamType === TeamType.OPPONENT) ? "b" : "w"; 
+            const y = (teamType === TeamType.OPPONENT) ? 7 : 0; 
+        
+        initialBoardState.push({image: `images/rook_${type}.png`, x: 0, y, type: PieceType.ROOK, team: teamType})
+        initialBoardState.push({image: `images/rook_${type}.png`, x: 0, y, type: PieceType.ROOK, team: teamType})
+        initialBoardState.push({image: `images/knight_${type}.png`, x:1, y, type: PieceType.KNIGHT, team: teamType})
+        initialBoardState.push({image: `images/knight_${type}.png`, x:6, y, type: PieceType.KNIGHT, team: teamType})
+        initialBoardState.push({image: `images/bishop_${type}.png`, x:2, y, type: PieceType.BISHOP, team: teamType})
+        initialBoardState.push({image: `images/bishop_${type}.png`, x:5, y, type: PieceType.BISHOP, team: teamType})
+        initialBoardState.push({image: `images/king_${type}.png`, x:4, y, type: PieceType.KING, team: teamType})
+        initialBoardState.push({image: `images/queen_${type}.png`, x:3, y, type: PieceType.QUEEN, team: teamType})
         }
         for(let i = 0; i < 8; i++){
-        initialBoardState.push({image: "images/Chess_plt60.png", x: i, y: 1, type: PieceType.PAWN })
+        initialBoardState.push({image:`pawn_b.png`, x: i, y: 6, type: PieceType.PAWN, team: TeamType.OPPONENT})
         }
-        //rooks
-        initialBoardState.push({ image: "images/Chess_rdt60.png", x:0, y: 7, type: PieceType.ROOK})
-        initialBoardState.push({ image: "images/Chess_rdt60.png", x:7, y: 7, type: PieceType.ROOK})
-        initialBoardState.push({ image: "images/Chess_rlt60.png", x:0, y: 0, type: PieceType.ROOK})
-        initialBoardState.push({ image: "images/Chess_rlt60.png", x:7, y: 0, type: PieceType.ROOK})
+        for(let i = 0; i < 8; i++){
+        initialBoardState.push({image: `pawn_w.png`, x: i, y: 1, type: PieceType.PAWN, team: TeamType.OUR})
+        }
 
-        //bishops
-        initialBoardState.push({ image: "images/Chess_bdt60.png", x:2, y: 7, type: PieceType.BISHOP})
-        initialBoardState.push({ image: "images/Chess_bdt60.png", x:5, y: 7, type: PieceType.BISHOP})
-        initialBoardState.push({ image: "images/Chess_blt60.png", x:5, y: 0, type: PieceType.BISHOP})
-        initialBoardState.push({ image: "images/Chess_blt60.png", x:2, y: 0, type: PieceType.BISHOP})
-
-        //knights
-        initialBoardState.push({ image: "images/Chess_ndt60.png", x:1, y: 7, type: PieceType.KNIGHT})
-        initialBoardState.push({ image: "images/Chess_ndt60.png", x:6, y: 7, type: PieceType.KNIGHT})
-        initialBoardState.push({ image: "images/Chess_nlt60.png", x:1, y: 0, type: PieceType.KNIGHT})
-        initialBoardState.push({ image: "images/Chess_nlt60.png", x:6, y: 0, type: PieceType.KNIGHT})
-
-        //kings
-        initialBoardState.push({ image: "images/Chess_kdt60.png", x:4, y: 7, type: PieceType.KING})
-        initialBoardState.push({ image: "images/Chess_klt60.png", x:4, y: 0, type: PieceType.KING})
-
-        //queens
-        initialBoardState.push({ image: "images/Chess_qdt60.png", x:3, y: 7, type: PieceType.QUEEN})
-        initialBoardState.push({ image: "images/Chess_qlt60.png", x:3, y: 0, type: PieceType.QUEEN})
 
 export default function Chessboard() {
     const [activePiece, setActivePiece] = useState<HTMLElement | null>(null)
@@ -111,7 +108,7 @@ export default function Chessboard() {
                 setPieces(value => {
                     const pieces = value.map(p => {
                         if(p.x === gridX && p.y === gridY){
-                            (referee.isValidMove(gridX, gridY, x, y, p.type))
+                            (referee.isValidMove(gridX, gridY, x, y, p.type, p.team))
                             p.x = x; 
                             p.y = y; 
                         }
