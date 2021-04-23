@@ -16,6 +16,10 @@ export default class Referee {
                         return true; 
                     }
                 }
+            } else {
+                if(px === x && y - py === 1){
+                    return true; 
+                }
             }
         }
         return false
