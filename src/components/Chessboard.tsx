@@ -70,35 +70,91 @@ export default function Chessboard() {
     }
   }
 
-        function dropPiece(e: React.MouseEvent){
-            const chessboard = chessboardRef.current
-            if(activePiece && chessboard) {
-                const x = Math.floor((e.clientX - chessboard.offsetLeft) / 100); 
-                const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / 100)); 
-                
-                //Updates the pieces position
-                setPieces(value => {
-                    const pieces = value.map(p => {
-                        if(p.x === gridX && p.y === gridY){
-                            const validMove = referee.isValidMove(gridX, gridY, x, y, p.type, p.team, value)
+          function dropPiece(e: React.MouseEvent) {
+    const chessboard = chessboardRef.current;
+    if (activePiece && chessboard) {
+      const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE);
+      const y = Math.abs(
+        Math.ceil((e.clientY - chessboard.offsetTop - 800) / GRID_SIZE)
+      );
 
-                            if(validMove){
-                            p.x = x; 
-                            p.y = y; 
-                            } else {
-                                activePiece.style.position = "relative"
-                                activePiece.style.removeProperty('top'); 
-                                activePiece.style.removeProperty('left'); 
+      const currentPiece = pieces.find((p) =>
+        samePosition(p.position, grabPosition)
+      );
 
-                            }
-                        }
-                        return p; 
-                    })
-                    return pieces
-                })
-                setActivePiece(null); 
+      if (currentPiece) {
+        const validMove = referee.isValidMove(
+          grabPosition,
+          { x, y },
+          currentPiece.type,
+          currentPiece.team,
+          pieces
+        );
+
+        const isEnPassantMove = referee.isEnPassantMove(
+          grabPosition,
+          { x, y },
+          currentPiece.type,
+          currentPiece.team,
+          pieces
+        );
+
+        const pawnDirection = currentPiece.team === TeamType.OUR ? 1 : -1;
+
+        if (isEnPassantMove) {
+          const updatedPieces = pieces.reduce((results, piece) => {
+            if (samePosition(piece.position, grabPosition)) {
+              piece.enPassant = false;
+              piece.position.x = x;
+              piece.position.y = y;
+              results.push(piece);
+            } else if (
+              !samePosition(piece.position, { x, y: y - pawnDirection })
+            ) {
+              if (piece.type === PieceType.PAWN) {
+                piece.enPassant = false;
+              }
+              results.push(piece);
             }
+
+            return results;
+          }, [] as Piece[]);
+
+          setPieces(updatedPieces);
+        } else if (validMove) {
+          //UPDATES THE PIECE POSITION
+          //AND IF A PIECE IS ATTACKED, REMOVES IT
+          const updatedPieces = pieces.reduce((results, piece) => {
+            if (samePosition(piece.position, grabPosition)) {
+              //SPECIAL MOVE
+              piece.enPassant =
+                Math.abs(grabPosition.y - y) === 2 &&
+                piece.type === PieceType.PAWN;
+                
+              piece.position.x = x;
+              piece.position.y = y;
+              results.push(piece);
+            } else if (!samePosition(piece.position, { x, y })) {
+              if (piece.type === PieceType.PAWN) {
+                piece.enPassant = false;
+              }
+              results.push(piece);
+            }
+
+            return results;
+          }, [] as Piece[]);
+
+          setPieces(updatedPieces);
+        } else {
+          //RESETS THE PIECE POSITION
+          activePiece.style.position = "relative";
+          activePiece.style.removeProperty("top");
+          activePiece.style.removeProperty("left");
         }
+      }
+      setActivePiece(null);
+    }
+  }
     let board = []; 
 
  for (let j = VERTICAL_AXIS.length - 1; j >= 0; j--) {
