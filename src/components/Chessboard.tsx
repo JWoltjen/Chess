@@ -6,7 +6,7 @@ import {VERTICAL_AXIS, HORIZONTAL_AXIS, GRID_SIZE, Piece, PieceType, TeamType, i
 
 export default function Chessboard() {
     const [activePiece, setActivePiece] = useState<HTMLElement | null>(null)
-    const [grabPosition, setGrabPosition] = useState<Position>(x: -1, y: -1)
+    const [grabPosition, setGrabPosition] = useState<Position>({x: -1, y: -1})
     const [pieces, setPieces] = useState<Piece[]>(initialBoardState)
     const chessboardRef = useRef<HTMLDivElement>(null); 
     const referee = new Referee()
